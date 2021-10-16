@@ -6,7 +6,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_branch")
@@ -36,9 +38,6 @@ public class Branch implements Serializable {
     @NotBlank(message = "description cannot be empty")
     private String description;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "tb_branch_manager",
-            joinColumns = @JoinColumn(name = "branch_id"),
-            inverseJoinColumns = @JoinColumn(name = "manager_id"))
+    @ManyToMany(mappedBy = "branches")
     private List<Manager> managers = new ArrayList<>();
 }

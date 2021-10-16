@@ -1,12 +1,15 @@
 package br.com.leon.model;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_manager")
@@ -22,7 +25,7 @@ public class Manager implements Serializable {
     private String name;
 
     @Email(message = "invalid email")
-    @UniqueElements(message = "this email is already being used")
+    @Column(unique = true)
     private String email;
 
     @NotBlank(message = "password cannot be empty")
@@ -30,4 +33,10 @@ public class Manager implements Serializable {
 
     @NotBlank(message = "permission cannot be empty")
     private String permission;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "tb_branch_manager",
+            joinColumns = @JoinColumn(name = "manager_id"),
+            inverseJoinColumns = @JoinColumn(name = "branch_id"))
+    private List<Branch> branches = new ArrayList<>();
 }
