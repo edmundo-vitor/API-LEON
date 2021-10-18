@@ -5,6 +5,8 @@ import br.com.leon.model.Manager;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +17,17 @@ public class ManagerDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Long id;
+
+    @NotBlank(message = "Name cannot be empty")
     private String name;
+
+    @Email(message = "Invalid email")
+    @NotBlank(message = "Email cannot be empty")
     private String email;
+
+    @NotBlank(message = "Permission cannot be empty")
     private String permission;
+
     private List<BranchDTO> branches = new ArrayList<>();
 
     public ManagerDTO(Long id, String name, String email, String permission) {
