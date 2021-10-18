@@ -9,13 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Setter;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
@@ -25,7 +22,8 @@ import lombok.Setter;
     columnNames = { "modality_id", "branch_id", "teacher_id" }
   )
 )
-public class Schedule {
+@EqualsAndHashCode(callSuper = true)
+public class Schedule extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -39,12 +37,6 @@ public class Schedule {
   @Column(nullable = false)
   private int maxUsers;
 
-  @Setter(AccessLevel.NONE)
-  private Date createdAt;
-
-  @Setter(AccessLevel.NONE)
-  private Date updatedAt;
-
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "teacher_id", nullable = false)
   private Teacher teacher;
@@ -56,14 +48,4 @@ public class Schedule {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "modality_id", nullable = false)
   private Modality modality;
-
-  @PrePersist
-  private void onPrePersist() {
-    createdAt = updatedAt = new Date();
-  }
-
-  @PreUpdate
-  private void onPreUpdate() {
-    updatedAt = new Date();
-  }
 }
