@@ -3,13 +3,9 @@ package br.com.leon.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "tb_manager")
@@ -20,19 +16,13 @@ public class Manager implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotBlank(message = "name cannot be empty")
     private String name;
-
-    @Email(message = "invalid email")
-    @Column(unique = true)
     private String email;
-
-    @NotBlank(message = "password cannot be empty")
     private String password;
-
-    @NotBlank(message = "permission cannot be empty")
     private String permission;
+
+    @OneToMany(mappedBy = "manager")
+    private List<News> news = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tb_branch_manager",

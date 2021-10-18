@@ -3,7 +3,6 @@ package br.com.leon.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,12 +15,10 @@ public class News implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String description;
+    private Date date;
 
     @ManyToOne
     @JoinColumn(name = "manager_id")
     private Manager manager;
-
-    @NotBlank(message = "description cannot be empty")
-    private String description;
-    private Date date;
 }
