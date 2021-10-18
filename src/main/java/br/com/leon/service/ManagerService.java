@@ -29,6 +29,11 @@ public class ManagerService {
     @Autowired
     private BranchRepository branchRepository;
 
+    public Page<ManagerDTO> findAllPaged(Pageable pageable) {
+        Page<Manager> page = repository.findAll(pageable);
+        return page.map(ManagerDTO::new);
+    }
+
     @Transactional(readOnly = true)
     public Page<ManagerDTO> findAllByPermissionPaged(String permission, Pageable pageable) {
         Page<Manager> page = repository.findAllByPermissionPaged(permission, pageable);
@@ -51,7 +56,6 @@ public class ManagerService {
         return new ManagerDTO(entity, entity.getBranches());
     }
 
-    //TODO tratar a exception de email duplicado
     @Transactional
     public ManagerDTO update(Long id, ManagerDTO dto) {
         try {
@@ -60,7 +64,7 @@ public class ManagerService {
             entity = repository.save(entity);
             return new ManagerDTO(entity);
         } catch (EntityNotFoundException e) {
-            throw new DatabaseException("Id not found " + id);
+            throw new NotFoundException("Id " + id + " not found");
         }
     }
 
@@ -68,7 +72,7 @@ public class ManagerService {
         try {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
-            throw new NotFoundException("Id not found " + id);
+            throw new NotFoundException("Id " + id + " not found");
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Integrity violation");
         }
