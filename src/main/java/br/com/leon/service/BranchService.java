@@ -38,6 +38,7 @@ public class BranchService {
     @Transactional
     public BranchDTO save(BranchDTO dto) {
         Branch entity = new Branch();
+        copyDtoToEntity(dto, entity);
         entity = repository.save(entity);
         return new BranchDTO(entity);
     }
@@ -46,6 +47,7 @@ public class BranchService {
     public BranchDTO update(Long id, BranchDTO dto) {
         try {
             Branch entity = repository.getById(id);
+            copyDtoToEntity(dto, entity);
             entity = repository.save(entity);
             return new BranchDTO(entity);
         } catch (EntityNotFoundException e) {
@@ -61,5 +63,15 @@ public class BranchService {
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Integrity violation");
         }
+    }
+
+    private void copyDtoToEntity(BranchDTO dto, Branch entity) {
+
+        entity.setName(dto.getName());
+        entity.setState(dto.getState());
+        entity.setRoad(dto.getRoad());
+        entity.setStreet_number(dto.getStreet_number());
+        entity.setCity(dto.getCity());
+        entity.setDescription(dto.getDescription());
     }
 }

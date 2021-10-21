@@ -1,10 +1,12 @@
 package br.com.leon.dto;
 
+import br.com.leon.model.Manager;
 import br.com.leon.model.News;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,8 +20,10 @@ public class NewsDTO implements Serializable {
     @NotBlank(message = "Description cannot be empty")
     private String description;
 
-    @NotBlank(message = "Date cannot be empty")
+    @NotNull(message = "Date cannot be null")
     private Date date;
+
+    @NotNull(message = "Manager cannot be null")
     private ManagerDTO manager;
 
     public NewsDTO(Long id, String description, Date date, ManagerDTO manager) {
@@ -33,6 +37,10 @@ public class NewsDTO implements Serializable {
         this.id = entity.getId();
         this.description = entity.getDescription();
         this.date = entity.getDate();
-        this.manager = new ManagerDTO(entity.getManager());
+    }
+
+    public NewsDTO(News entity, Manager manager) {
+        this(entity);
+        this.manager = new ManagerDTO(manager);
     }
 }
