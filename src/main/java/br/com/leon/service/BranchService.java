@@ -70,7 +70,7 @@ public class BranchService {
         entity.setName(dto.getName());
         entity.setState(dto.getState());
         entity.setRoad(dto.getRoad());
-        entity.setStreet_number(dto.getStreet_number());
+        entity.setStreetNumber(dto.getStreetNumber());
         entity.setCity(dto.getCity());
         entity.setDescription(dto.getDescription());
     }
