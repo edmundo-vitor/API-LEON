@@ -25,15 +25,23 @@ public class ManagerDTO implements Serializable {
     @NotBlank(message = "Email cannot be empty")
     private String email;
 
+    @NotBlank(message = "Address cannot be empty")
+    private String address;
+
+    @NotBlank(message = "Phone cannot be empty")
+    private String phone;
+
     @NotBlank(message = "Permission cannot be empty")
     private String permission;
 
     private List<BranchDTO> branches = new ArrayList<>();
 
-    public ManagerDTO(Long id, String name, String email, String permission) {
+    public ManagerDTO(Long id, String name, String email, String address, String phone, String permission) {
         this.id = id;
         this.name = name;
         this.email = email;
+        this.address = address;
+        this.phone = phone;
         this.permission = permission;
     }
 
@@ -42,6 +50,8 @@ public class ManagerDTO implements Serializable {
         this.name = entity.getName();
         this.email = entity.getEmail();
         this.permission = entity.getPermission();
+        this.address = entity.getAddress();
+        this.phone = entity.getPhone();
     }
 
     public ManagerDTO(Manager entity, List<Branch> branches) {

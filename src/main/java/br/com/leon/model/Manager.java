@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "tb_manager")
 @Data
-public class Manager implements Serializable {
+public class Manager extends BaseEntity implements Serializable {
     public static final long serialVersionUID = 1L;
 
     @Id
@@ -19,6 +19,8 @@ public class Manager implements Serializable {
     private String name;
     private String email;
     private String password;
+    private String address;
+    private String phone;
     private String permission;
 
     @OneToMany(mappedBy = "manager")

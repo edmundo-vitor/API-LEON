@@ -44,7 +44,7 @@ public class ManagerService {
     public ManagerDTO findById(Long id) {
         Optional<Manager> obj = repository.findById(id);
         Manager entity = obj.orElseThrow(() -> new NotFoundException("Entity not found"));
-        return new ManagerDTO(entity);
+        return new ManagerDTO(entity, entity.getBranches());
     }
 
     @Transactional
@@ -82,6 +82,8 @@ public class ManagerService {
 
         entity.setName(dto.getName());
         entity.setEmail(dto.getEmail());
+        entity.setAddress(dto.getAddress());
+        entity.setPhone(dto.getPhone());
         entity.setPermission(dto.getPermission());
 
         entity.getBranches().clear();
