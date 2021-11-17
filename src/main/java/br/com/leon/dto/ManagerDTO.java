@@ -42,16 +42,16 @@ public class ManagerDTO implements Serializable {
         this.email = email;
         this.address = address;
         this.phone = phone;
-        this.permission = permission;
+        this.permission = permission.toUpperCase();
     }
 
     public ManagerDTO(Manager entity) {
         this.id = entity.getId();
         this.name = entity.getName();
         this.email = entity.getEmail();
-        this.permission = entity.getPermission();
         this.address = entity.getAddress();
         this.phone = entity.getPhone();
+        this.permission = entity.getPermission().toUpperCase();
     }
 
     public ManagerDTO(Manager entity, List<Branch> branches) {
