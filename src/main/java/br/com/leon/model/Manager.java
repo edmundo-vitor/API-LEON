@@ -5,7 +5,9 @@ import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_manager")
@@ -17,11 +19,12 @@ public class Manager extends BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String email;
-    private String password;
     private String address;
     private String phone;
-    private String permission;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "authentication_id", referencedColumnName = "id")
+    private Authentication authentication;
 
     @OneToMany(mappedBy = "manager")
     private List<News> news = new ArrayList<>();

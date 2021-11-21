@@ -5,15 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
+
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -26,14 +19,15 @@ public class User implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
-  private String email;
-  private String password;
   private String name;
   private Boolean active;
 
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "authentication_id", referencedColumnName = "id")
+  private Authentication authentication;
+
   @Value("${0}")
-  private int restitutions;
+    private int restitutions;
 
   @ManyToOne
   private Plan plan;
