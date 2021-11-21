@@ -1,6 +1,9 @@
 package br.com.leon.dto;
 
 import br.com.leon.model.Teacher;
+
+import java.util.Date;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import lombok.Data;
@@ -22,12 +25,18 @@ public class TeacherDTO {
     message = "Invalid phone number"
   )
   private String telephone;
+  
+  private Date createdAt;
+  
+  private Date updatedAt;
 
   public TeacherDTO(Teacher teacher) {
     id = teacher.getId();
     name = teacher.getName();
     address = teacher.getAddress();
     telephone = teacher.getTelephone();
+    createdAt = teacher.getCreatedAt();
+    updatedAt = teacher.getUpdatedAt();
   }
 
   public static Teacher toModel(TeacherDTO teacherDto) {

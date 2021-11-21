@@ -38,18 +38,34 @@ public class TeacherService {
   @Transactional
   public TeacherDTO save(TeacherDTO dto) {
     Teacher newTeacher = teacherRepo.save(TeacherDTO.toModel(dto));
-    
+
     return new TeacherDTO(newTeacher);
   }
-  
+
+  @Transactional
+  public TeacherDTO update(Long id, TeacherDTO dto) {
+    Optional<Teacher> teacher = teacherRepo.findById(id);
+
+    if (!teacher.isPresent()) {
+      throw new NotFoundException("Entity not found");
+    }
+    
+    teacher.get().setName(dto.getName());
+    teacher.get().setAddress(dto.getAddress());
+
+    Teacher updatedTeacher = teacherRepo.save(teacher.get());
+
+    return new TeacherDTO(updatedTeacher);
+  }
+
   @Transactional
   public void delete(Long id) {
     boolean teacherExists = teacherRepo.existsById(id);
-    
+
     if (!teacherExists) {
-    	throw new NotFoundException("Entity not found");
+      throw new NotFoundException("Entity not found");
     }
-    
+
     teacherRepo.deleteById(id);
   }
 }

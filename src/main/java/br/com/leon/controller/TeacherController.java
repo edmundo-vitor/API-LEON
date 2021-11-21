@@ -19,7 +19,7 @@ public class TeacherController {
     return teacherService.findAll();
   }
 
-  @GetMapping(value = "/{id}")
+  @GetMapping("/{id}")
   public ResponseEntity<TeacherDTO> findById(@PathVariable Long id) {
     return ResponseEntity.ok(teacherService.findById(id));
   }
@@ -29,9 +29,17 @@ public class TeacherController {
     return ResponseEntity.ok(teacherService.save(dto));
   }
 
-  @DeleteMapping(value = "/{id}")
+  @PutMapping("/{id}")
+  public ResponseEntity<TeacherDTO> update(
+    @PathVariable Long id,
+    @Valid @RequestBody TeacherDTO dto
+  ) {
+    return ResponseEntity.ok(teacherService.update(id, dto));
+  }
+
+  @DeleteMapping("/{id}")
   public ResponseEntity<Void> delete(@PathVariable Long id) {
-	teacherService.delete(id);
+    teacherService.delete(id);
     return ResponseEntity.noContent().build();
   }
 }
