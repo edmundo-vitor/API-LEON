@@ -2,16 +2,20 @@ package br.com.leon.controller;
 
 import br.com.leon.dto.ManagerDTO;
 import br.com.leon.dto.ManagerInsertDTO;
+import br.com.leon.model.Role;
 import br.com.leon.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/managers")
@@ -26,12 +30,10 @@ public class ManagerController {
         return ResponseEntity.ok().body(list);
     }
 
-    @GetMapping("/find-by-permission")
-    public ResponseEntity<Page<ManagerDTO>> findAllByPermission(
-            @RequestParam(value = "permission", defaultValue = "") String permission,
-            Pageable pageable) {
-        Page<ManagerDTO> list = service.findAllByPermissionPaged(permission.trim(), pageable);
-        return ResponseEntity.ok().body(list);
+    @GetMapping(value = "/roles")
+    public ResponseEntity<List<Role>> findAllRoles() {
+        List<Role> roles = service.findAllRoles();
+        return ResponseEntity.ok().body(roles);
     }
 
     @GetMapping(value = "/{id}")
@@ -49,7 +51,7 @@ public class ManagerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ManagerDTO> update(@PathVariable Long id, @Valid @RequestBody ManagerDTO dto) {
+    public ResponseEntity<ManagerDTO> update(@PathVariable Long id, @Valid @RequestBody ManagerInsertDTO dto) {
         ManagerDTO newDto = service.update(id, dto);
         return ResponseEntity.ok().body(newDto);
     }
