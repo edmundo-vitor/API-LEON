@@ -15,12 +15,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import org.springframework.beans.factory.annotation.Value;
 
 @Entity
 @Table(name = "tb_user")
 @Data
-public class User implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class User extends BaseEntity implements Serializable {
   public static final long serialVersionUID = 1L;
 
   @Id

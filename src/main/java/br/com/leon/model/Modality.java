@@ -19,11 +19,13 @@ import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "tb_modality")
 @Data
-public class Modality implements Serializable {
+@EqualsAndHashCode(exclude = "plans", callSuper = true)
+public class Modality extends BaseEntity implements Serializable {
 	public static final long serialVersionUID = 1L;
 
     @Id
@@ -34,6 +36,6 @@ public class Modality implements Serializable {
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 	@JsonIdentityReference(alwaysAsId = true)
 	@JoinTable(name = "tb_modality_plan", joinColumns = @JoinColumn(name = "modality_id"), inverseJoinColumns = @JoinColumn(name = "plan_id"))
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
     private List<Plan> plans = new ArrayList<>();
 }

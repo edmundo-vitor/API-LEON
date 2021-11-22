@@ -24,11 +24,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "tb_plan")
 @Data
-public class Plan implements Serializable {
+@EqualsAndHashCode(exclude = "modalities", callSuper = true)
+public class Plan extends BaseEntity implements Serializable {
 	public static final long serialVersionUID = 1L;
 
     @Id
