@@ -11,7 +11,7 @@ import lombok.Data;
 @Entity
 @Table(name = "tb_branch")
 @Data
-public class Branch implements Serializable {
+public class Branch extends BaseEntity implements Serializable {
   public static final long serialVersionUID = 1L;
 
   @Id
@@ -21,7 +21,7 @@ public class Branch implements Serializable {
   private String name;
   private String state;
   private String road;
-  private String street_number;
+  private Integer streetNumber;
   private String city;
   private String description;
 

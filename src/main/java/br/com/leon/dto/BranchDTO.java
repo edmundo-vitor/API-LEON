@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Data
@@ -23,8 +24,8 @@ public class BranchDTO implements Serializable {
     @NotBlank(message = "Road cannot be empty")
     private String road;
 
-    @NotBlank(message = "Street number cannot be empty")
-    private String street_number;
+    @NotNull(message = "Street number cannot be null")
+    private Integer streetNumber;
 
     @NotBlank(message = "City cannot be empty")
     private String city;
@@ -32,12 +33,12 @@ public class BranchDTO implements Serializable {
     @NotBlank(message = "Description cannot be empty")
     private String description;
 
-    public BranchDTO(Long id, String name, String state, String road, String street_number, String city, String description) {
+    public BranchDTO(Long id, String name, String state, String road, Integer streetNumber, String city, String description) {
         this.id = id;
         this.name = name;
         this.state = state;
         this.road = road;
-        this.street_number = street_number;
+        this.streetNumber = streetNumber;
         this.city = city;
         this.description = description;
     }
@@ -47,7 +48,7 @@ public class BranchDTO implements Serializable {
         this.name = entity.getName();
         this.state = entity.getState();
         this.road = entity.getRoad();
-        this.street_number = entity.getStreet_number();
+        this.streetNumber = entity.getStreetNumber();
         this.city = entity.getCity();
         this.description = entity.getDescription();
     }

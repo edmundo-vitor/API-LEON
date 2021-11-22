@@ -72,7 +72,9 @@ public class NewsService {
 
     private void copyDtoToEntity(NewsDTO dto, News entity) {
 
+        entity.setTitle(dto.getTitle());
         entity.setDescription(dto.getDescription());
+        entity.setImageUrl(dto.getImageUrl());
         entity.setDate(dto.getDate());
 
         Manager manager = managerRepository.getById(dto.getManager().getId());
