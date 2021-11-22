@@ -54,6 +54,7 @@ public class TeacherService {
 
     teacher.get().setName(dto.getName());
     teacher.get().setAddress(dto.getAddress());
+    teacher.get().setTelephone(dto.getTelephone());
 
     Teacher updatedTeacher = teacherRepo.save(teacher.get());
 
