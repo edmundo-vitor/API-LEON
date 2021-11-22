@@ -3,6 +3,8 @@ package br.com.leon.controller;
 import br.com.leon.dto.TeacherDTO;
 import br.com.leon.service.TeacherService;
 import java.util.List;
+import java.util.Optional;
+
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +17,8 @@ public class TeacherController {
   private TeacherService teacherService;
 
   @GetMapping
-  public List<TeacherDTO> findAll() {
-    return teacherService.findAll();
+  public List<TeacherDTO> findAll(@RequestParam("name") Optional<String> name) {
+    return teacherService.findAll(name);
   }
 
   @GetMapping("/{id}")

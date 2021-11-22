@@ -16,12 +16,14 @@ public class TeacherService {
   @Autowired
   private TeacherRepository teacherRepo;
 
-  public List<TeacherDTO> findAll() {
-    return teacherRepo
-      .findAll()
-      .stream()
-      .map(TeacherDTO::new)
-      .collect(Collectors.toList());
+  public List<TeacherDTO> findAll(Optional<String> name) {
+    List<Teacher> teachers;
+    if (name.isPresent()) {
+      teachers = teacherRepo.searchByNameLike(name.get());
+    } else {
+      teachers = teacherRepo.findAll();
+    }
+    return teachers.stream().map(TeacherDTO::new).collect(Collectors.toList());
   }
 
   @Transactional(readOnly = true)
@@ -49,7 +51,7 @@ public class TeacherService {
     if (!teacher.isPresent()) {
       throw new NotFoundException("Entity not found");
     }
-    
+
     teacher.get().setName(dto.getName());
     teacher.get().setAddress(dto.getAddress());
 
