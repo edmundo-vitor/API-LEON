@@ -8,7 +8,6 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +16,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
@@ -42,11 +44,13 @@ public class Plan extends BaseEntity implements Serializable {
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 	@JsonIdentityReference(alwaysAsId = true)
 	@JoinTable(name = "tb_modality_plan", joinColumns = @JoinColumn(name = "plan_id"), inverseJoinColumns = @JoinColumn(name = "modality_id"))
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany
+	@LazyCollection(LazyCollectionOption.FALSE)
     private List<Modality> modalities = new ArrayList<>();
     
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@JsonIdentityReference(alwaysAsId = true)
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "plan", fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "plan")
+    @LazyCollection(LazyCollectionOption.FALSE)
 	private Set<User> users = new HashSet<>();
 }
