@@ -73,6 +73,7 @@ public class UserService {
             User entity = userRepo.getById(id);
             entity = dto.toUser();
             entity.setId(id);
+            entity.getAuthentication().setPassword(passwordEncoder.encode(entity.getAuthentication().getPassword()));
             entity = userRepo.save(entity);
             return new UserDTO(entity);
         } catch (EntityNotFoundException e) {
