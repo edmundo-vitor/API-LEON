@@ -37,7 +37,7 @@ public class ModalityController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(Long id) {
+  public ResponseEntity<Void> delete(@PathVariable Long id) {
     modalityServ.delete(id);
     return ResponseEntity.noContent().build();
   }
