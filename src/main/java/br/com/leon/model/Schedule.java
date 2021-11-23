@@ -14,18 +14,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
-@Table(
-  name = "tb_schedule",
-  uniqueConstraints = @UniqueConstraint(
-    columnNames = { "modality_id", "branch_id", "teacher_id" }
-  )
-)
+@Table(name = "tb_schedule")
 @EqualsAndHashCode(callSuper = true, exclude = { "teacher", "branch", "modality" })
 public class Schedule extends BaseEntity {
   @Id
