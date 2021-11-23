@@ -11,11 +11,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Table(name = "tb_payment")
 @Data
-public class Payment implements Serializable{
+@EqualsAndHashCode(callSuper = true)
+public class Payment extends BaseEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
