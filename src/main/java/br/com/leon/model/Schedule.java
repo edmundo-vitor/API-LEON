@@ -26,7 +26,7 @@ import lombok.EqualsAndHashCode;
     columnNames = { "modality_id", "branch_id", "teacher_id" }
   )
 )
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude = { "teacher", "branch", "modality" })
 public class Schedule extends BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
