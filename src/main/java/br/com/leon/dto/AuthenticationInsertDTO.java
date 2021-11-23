@@ -5,12 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -24,5 +19,14 @@ public class AuthenticationInsertDTO extends AuthenticationDTO {
     public AuthenticationInsertDTO(Authentication entity) {
         super(entity);
         this.password = entity.getPassword();
+    }
+    
+    public Authentication toAuthentication() {
+    	Authentication authentication = new Authentication();
+    	authentication.setId(getId());
+    	authentication.setEmail(getEmail());
+    	authentication.setPassword(password);
+    	//authentication.setRoles(getRoles());
+    	return authentication;
     }
 }

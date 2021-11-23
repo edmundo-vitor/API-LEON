@@ -14,9 +14,11 @@ import br.com.leon.model.Plan;
 import br.com.leon.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
+@EqualsAndHashCode(exclude = "modalities")
 @NoArgsConstructor
 @AllArgsConstructor
 public class PlanDTO implements Serializable{

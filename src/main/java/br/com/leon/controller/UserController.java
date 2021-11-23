@@ -1,16 +1,12 @@
 package br.com.leon.controller;
 
-import br.com.leon.model.Authentication;
-import br.com.leon.model.Role;
-import br.com.leon.model.User;
-import br.com.leon.repository.RoleRepository;
-import br.com.leon.repository.UserRepository;
+import br.com.leon.dto.UserDTO;
+import br.com.leon.service.UserService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -23,37 +19,38 @@ import java.net.URI;
 public class UserController {
 
     @Autowired
-    private UserRepository repository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private UserService userService;
+   
 
     @GetMapping
-    public ResponseEntity<Page<User>> findAll(Pageable pageable) {
-        return ResponseEntity.ok().body(repository.findAll(pageable));
+    public ResponseEntity<Page<UserDTO>> findAll(Pageable pageable) {
+    	Page<UserDTO> list = userService.findAllPaged(pageable);
+        return ResponseEntity.ok().body(list);
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
+    	return ResponseEntity.ok().body(userService.findById(id));
     }
 
     @PostMapping
-    @Transactional
-    public ResponseEntity<User> save(@Valid @RequestBody User user) {
-        user.getAuthentication().setPassword(passwordEncoder.encode(user.getAuthentication().getPassword()));
-
-        Authentication authentication = new Authentication();
-        authentication.setEmail(user.getAuthentication().getEmail());
-        authentication.setPassword(user.getAuthentication().getPassword());
-
-        for (Role roleDto : user.getAuthentication().getRoles()) {
-            Role role = roleRepository.getById(roleDto.getId());
-            authentication.getRoles().add(role);
-        }
-        user.setAuthentication(authentication);
-
-        user = repository.save(user);
+    public ResponseEntity<UserDTO> save(@Valid @RequestBody UserDTO dto) {
+    	UserDTO newDTO = userService.save(dto);
+    	
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(user.getId()).toUri();
-        return ResponseEntity.created(uri).body(user);
+                .buildAndExpand(newDTO.getId()).toUri();
+        return ResponseEntity.created(uri).body(newDTO);
+    }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserDTO dto) {
+        UserDTO newDto = userService.update(id, dto);
+        return ResponseEntity.ok().body(newDto);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    	userService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

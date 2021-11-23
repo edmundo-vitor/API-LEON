@@ -2,14 +2,17 @@ package br.com.leon.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
@@ -21,18 +24,22 @@ import java.util.stream.Collectors;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(exclude = {"user", "roles", "manager"} , callSuper = true)
 public class Authentication extends BaseEntity implements UserDetails, Serializable {
     public static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @Email(message = "Invalid email")
     private String email;
     private String password;
 
     @OneToOne(mappedBy = "authentication")
     private Manager manager;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "authentication")
     private User user;
 
